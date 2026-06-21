@@ -10,12 +10,15 @@ public class TeleopDrive extends Command {
     private final DoubleSupplier xSpeed;
     private final DoubleSupplier ySpeed;
     private final DoubleSupplier rotation;
+    
 
     public TeleopDrive(Drive drive, DoubleSupplier xSpeed, DoubleSupplier ySpeed, DoubleSupplier rotation) {
         this.drive = drive;
         this.xSpeed = xSpeed;
         this.ySpeed = ySpeed;
         this.rotation = rotation;
+
+        addRequirements(drive);
     }
 
     @Override
