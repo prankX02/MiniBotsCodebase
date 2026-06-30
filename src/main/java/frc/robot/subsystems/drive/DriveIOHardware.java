@@ -8,8 +8,6 @@ import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
-import org.littletonrobotics.junction.Logger;
-
 public class DriveIOHardware implements DriveIO{
     private final SparkMax frontLeft;
     private final SparkMax frontRight;
@@ -25,15 +23,18 @@ public class DriveIOHardware implements DriveIO{
         backRight = new SparkMax(brId, MotorType.kBrushed);
 
         SparkMaxConfig defaultConfig = new SparkMaxConfig();
-        defaultConfig.idleMode(SparkMaxConfig.IdleMode.kBrake);
+        defaultConfig
+            .idleMode(SparkMaxConfig.IdleMode.kBrake)
+            .encoder.countsPerRevolution(538);
 
         SparkMaxConfig invertedConfig = new SparkMaxConfig();
-        invertedConfig.idleMode(SparkMaxConfig.IdleMode.kBrake);
-        invertedConfig.inverted(true);
+        invertedConfig
+            .apply(defaultConfig)
+            .inverted(true);
 
-        frontLeft.configure(defaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        frontLeft.configure(invertedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         frontRight.configure(defaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        backLeft.configure(defaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        backLeft.configure(invertedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         backRight.configure(defaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         drive = new MecanumDrive(

@@ -16,10 +16,10 @@ import frc.robot.subsystems.drive.DriveIOSim;
 public class RobotContainer {
 
     // CAN IDs
-    private static final int FL_ID = 1;
+    private static final int FL_ID = 4;
     private static final int FR_ID = 2;
-    private static final int RL_ID = 3;
-    private static final int RR_ID = 4;
+    private static final int RL_ID = 1;
+    private static final int RR_ID = 3;
 
     private final CommandXboxController gamepad = new CommandXboxController(0);
 
@@ -34,7 +34,7 @@ public class RobotContainer {
         if (Constants.getMode() != Mode.REPLAY) {
             switch (Constants.getRobot()) {
                 case COMPETITION:
-                    buildComp();
+                    drivebase = new Drive(new DriveIOHardware(FL_ID, FR_ID, RL_ID, RR_ID));
                     break;
                 case SIMBOT:
                     drivebase = new Drive(new DriveIOSim());
@@ -45,10 +45,6 @@ public class RobotContainer {
         if (drivebase == null) {
             drivebase = new Drive(new DriveIOHardware(FL_ID, FR_ID, RL_ID, RR_ID));
         }
-    }
-
-    private void buildComp() {
-        drivebase = new Drive(new DriveIOHardware(FL_ID, FR_ID, RL_ID, RR_ID));
     }
 
     private void configureBindings() {
