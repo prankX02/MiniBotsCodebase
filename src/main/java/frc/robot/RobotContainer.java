@@ -51,8 +51,8 @@ public class RobotContainer {
         // Default command — runs whenever no other command is using the drivebase
         drivebase.setDefaultCommand(new TeleopDrive(
             drivebase,
-            () -> -gamepad.getLeftY(),   // forward/back
-            () -> -gamepad.getLeftX(),   // strafe
+            () -> -gamepad.getLeftX(),   // forward/back
+            () -> -gamepad.getLeftY(),   // strafe
             () -> -gamepad.getRightX()   // rotation
         ));
 

@@ -30,11 +30,11 @@ public class DriveIOHardware implements DriveIO{
         SparkMaxConfig invertedConfig = new SparkMaxConfig();
         invertedConfig
             .apply(defaultConfig)
-            .inverted(true);
+            .inverted(true);    
 
-        frontLeft.configure(invertedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        frontLeft.configure(defaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         frontRight.configure(defaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        backLeft.configure(invertedConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        backLeft.configure(defaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         backRight.configure(defaultConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         drive = new MecanumDrive(
@@ -53,7 +53,11 @@ public class DriveIOHardware implements DriveIO{
      */
     @Override
     public void driveCartesian(double xSpeed, double ySpeed, double rotation) {
-        drive.driveCartesian(xSpeed, ySpeed, rotation);
+        frontLeft.setVoltage(( -ySpeed + xSpeed - rotation) * 20);
+        frontRight.setVoltage((ySpeed + xSpeed - rotation) * 20);
+        backLeft.setVoltage((-ySpeed - xSpeed - rotation) * 20);    
+        backRight.setVoltage((ySpeed - xSpeed - rotation) * 20);
+        //drive.driveCartesian(xSpeed, ySpeed, rotation);
     }
     
     @Override
