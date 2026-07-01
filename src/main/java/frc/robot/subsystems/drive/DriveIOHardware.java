@@ -6,7 +6,9 @@ import com.revrobotics.spark.*;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.drive.RobotDriveBase;
 
 public class DriveIOHardware implements DriveIO{
     private final SparkMax frontLeft;
@@ -53,10 +55,13 @@ public class DriveIOHardware implements DriveIO{
      */
     @Override
     public void driveCartesian(double xSpeed, double ySpeed, double rotation) {
-        frontLeft.setVoltage(( -ySpeed + xSpeed - rotation) * 20);
-        frontRight.setVoltage((ySpeed + xSpeed - rotation) * 20);
-        backLeft.setVoltage((-ySpeed - xSpeed - rotation) * 20);    
-        backRight.setVoltage((ySpeed - xSpeed - rotation) * 20);
+        xSpeed = MathUtil.applyDeadband(xSpeed, .15);
+        ySpeed = MathUtil.applyDeadband(ySpeed, .15);
+
+        frontLeft.setVoltage(( -ySpeed + xSpeed + rotation) * 20);
+        frontRight.setVoltage((ySpeed + xSpeed + rotation) * 20);
+        backLeft.setVoltage((-ySpeed - xSpeed + rotation) * 20);    
+        backRight.setVoltage((ySpeed - xSpeed + rotation) * 20);
         //drive.driveCartesian(xSpeed, ySpeed, rotation);
     }
     
